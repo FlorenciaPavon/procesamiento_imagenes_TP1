@@ -1,0 +1,22 @@
+venv/
+.venv/
+
+# Caché de Python
+__pycache__/
+*.pyc
+
+# Variables de entorno
+.env
+
+# Logs
+*.log
+logs/
+
+# Reportes
+reports/
+
+# Archivos de VS Code
+.vscode/
+
+# Archivos temporales
+*.tmp
