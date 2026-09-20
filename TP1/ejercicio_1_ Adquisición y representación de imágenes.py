@@ -32,7 +32,9 @@ def main():
     print("pixel (0,0) =", img_np[0, 0]) 
 
     #con cv2
-    img_cv2=cv2.imread(RUTA)
+    img_cv2=cv2.imread(RUTA,  cv2.IMREAD_UNCHANGED)
+    #img2 = cv2.imread("img", cv2.IMREAD_UNCHANGED)
+    
     print("Size con cv2", img_cv2.shape)
     print("Tipo de dato con cv2 ", img_cv2.dtype)
 
