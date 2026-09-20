@@ -17,7 +17,7 @@ BETA = 20
 def calcular_mse(original, resultado):
     diferencia = original.astype(np.float32) - resultado.astype(np.float32)
     mse = np.mean(diferencia ** 2)
-    return mse
+    return mse #mse mide que pasa con las reducciones+ampliaciones de este ejercicio
 
 
 def main():
@@ -65,7 +65,15 @@ def main():
     for nombre, mse in resultados:
         print(f"{nombre}: {mse:.2f}")
 
-
+'''
+El error cuadrático medio obtenido fue de 112,39 para INTER_NEAREST, 
+15,04 para INTER_LINEAR, 
+14,21 para INTER_CUBIC y 
+25,87 para INTER_AREA.
+Como un MSE menor indica una mayor similitud con la imagen original,
+ en este experimento INTER_CUBIC presentó el menor error después de
+   realizar ambas operaciones
+'''
 
 if __name__ == "__main__":
     main()
