@@ -1,13 +1,9 @@
 """
 25
-Elegir los umbrales de Canny
-Aplicá Canny con cinco pares de umbrales distintos y 
-contá los píxeles de borde de cada resultado. Después 
-implementá la regla automática basada en la mediana de 
-la imagen y compará su salida con tu mejor elección manual.
-
-PistaRegla habitual: bajo = 0.66 · mediana, alto = 1.33 · 
-mediana. Contá bordes con np.count_nonzero.
+Bordes con y sin suavizado previo
+Aplicá Canny a una foto tal cual y a la misma foto suavizada 
+con un gaussiano 5×5. Contá los píxeles de borde en cada caso y 
+explicá por qué conviene filtrar antes de detectar.
 """
 import cv2
 import numpy as np
@@ -31,7 +27,30 @@ def suavizar_imagen(img):
     )
     return suavizada
 
-def cantidad_pixeles():
+
+def main():
+    img = cv2.imread(
+        RUTA,
+        cv2.IMREAD_GRAYSCALE
+    )
+
+    # Canny sobre la imagen original
+    bordes_original = aplicar_canny(
+        img,
+        30,
+        90
+    )
+
+    # Suavizado y luego Canny
+    suavizada = suavizar_imagen(img)
+
+    bordes_suavizados = aplicar_canny(
+        suavizada,
+        30,
+        90
+    )
+
+    # Contar píxeles de borde
     cantidad_original = contar_bordes(
         bordes_original
     )
@@ -39,22 +58,6 @@ def cantidad_pixeles():
     cantidad_suavizada = contar_bordes(
         bordes_suavizados
     )
-
-   
-
-
-def main():
-    img = cv2.imread(RUTA, cv2.IMREAD_GRAYSCALE)
-
-    # Canny sobre la imagen original
-    bordes_original = aplicar_canny(img, 30, 90)    
-    cantidad_original = contar_bordes(bordes_original)
-    suavizada = suavizar_imagen(img)
-    bordes_suavizados = detectar_bordes(suavizada)
-
-    # Contar píxeles de borde
-    cantidad_original = contar_bordes(bordes_original)
-    cantidad_suavizada = contar_bordes(bordes_suavizados)
 
     print(
         "Píxeles de borde sin suavizado:",
@@ -71,7 +74,6 @@ def main():
 
     plt.subplot(1, 3, 1)
     plt.imshow(img, cmap="gray")
-    
     plt.title("Original")
     plt.axis("off")
 
@@ -93,11 +95,20 @@ def main():
 
     plt.tight_layout()
     plt.show()
-'''
 
 '''
+Al aplicar Canny directamente sobre la imagen original se detectaron 7197 
+píxeles de borde. Luego se aplicó un filtro gaussiano de 5×5 antes de utilizar 
+Canny, obteniendo 3600 píxeles de borde.
 
+La disminución en la cantidad de bordes se debe a que el suavizado reduce 
+pequeñas variaciones de intensidad y ruido que podían ser interpretados 
+como bordes. De esta manera, algunos contrastes menores desaparecen, 
+mientras que los bordes más importantes de la imagen se mantienen. 
+Por este motivo, suele ser conveniente aplicar un suavizado antes de la 
+detección de bordes, ya que permite reducir detecciones producidas por ruido 
+y obtener bordes más significativos.
+'''
 
 if __name__ == "__main__":
     main()
-
